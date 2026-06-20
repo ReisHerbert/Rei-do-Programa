@@ -4,6 +4,10 @@
 import pygame
 from os.path import join
 
+largura,altura = 800,600
+tela = pygame.display.set_mode((largura,altura))
+relogio = pygame.time.Clock()
+
 class Jogador(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -46,15 +50,30 @@ class Tiro(pygame.sprite.Sprite):
         super().__init__(groups)
         self.image = pygame.image.load(join("player.png"))
         self.rect = self.image.get_rect(midbottom = pos)
-
+    def update(self):
+        self.rect.centery-=400
 
 
 #sprites
 todos_sprites = pygame.sprite.Group()
 tiro_sprites = pygame.sprite.Group()
+inimigos_sprites = pygame.sprite.Group()
 
 
-runing = True
-while runing:
+rodando = True
+while rodando:
+    relogio.tick(60)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            rodando = False
     for tiro in tiro_sprites:
         pygame.sprite.spritecollide(tiro,inimigos_sprites, True)
+
+    tela.fill('darkgrey')
+    todos_sprites.draw(tela)
+    tiro_sprites.draw(tela)
+
+    pygame.display.update()
+
+pygame.quit()
+

@@ -4,6 +4,8 @@
 import pygame
 from os.path import join
 
+pygame.init()
+
 largura,altura = 800,600
 tela = pygame.display.set_mode((largura,altura))
 relogio = pygame.time.Clock()
@@ -24,8 +26,6 @@ class Jogador(pygame.sprite.Sprite):
         self.direcao = "down"     
         self.image = self.sprites[self.direcao]
         self.rect = self.image.get_frect(center = (largura/2,altura/2))
-
-        #movimento
         self.velocidade = 3
 
         #tiro
@@ -133,6 +133,7 @@ while rodando:
     pygame.display.update()
     todos_sprites.update()
     tiro_sprites.update()
+
 
 
 pygame.quit()

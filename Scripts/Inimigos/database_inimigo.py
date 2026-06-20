@@ -27,3 +27,5 @@ INIMIGO_DB = {
         "tipo": "voador"
     }
 }
+
+print( INIMIGO_DB["inimigo1_1F"])

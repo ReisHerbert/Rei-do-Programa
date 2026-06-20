@@ -42,8 +42,6 @@ class Jogador(pygame.sprite.Sprite):
             self.pode_atirar = False
             self.tempo_tiro = pygame.time.get_ticks() 
         self.temporizador_tiro()
-
-
 class Tiro(pygame.sprite.Sprite):
     def __init__(self,pos,groups):
         super().__init__(groups)
@@ -54,6 +52,14 @@ class Tiro(pygame.sprite.Sprite):
         self.rect.centery-= self.velociade
         if self.rect.bottom <0:
             self.kill()
+def colisao():
+    colisao_jogador = pygame.sprite.spritecollide(jogador, inimigos_sprites, True)
+    if colisao_jogador:
+        print()
+    for tiro in tiro_sprites:
+        sprites_colididos = pygame.sprite.spritecollide(tiro,inimigos_sprites,True)
+        if sprites_colididos:
+            InimigoBasico.kill()
 
 
 #sprites

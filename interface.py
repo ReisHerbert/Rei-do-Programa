@@ -2,87 +2,81 @@ import pygame
 from configs import *
 from os.path import join
 
-pygame.init()
+class Interface():
+    def __init__(self):
+        #estados
 
-#set configs
-largura,altura = 800,600
-tela = pygame.display.set_mode((largura,altura))
-relogio = pygame.time.Clock()
-menu,jogando,game_over = 0,1,2
-estado = menu
-vidas = 3
+        self.menu = 0
+        self.jogando = 1
+        self.game_over = 2
+        self.estado = self.menu
 
-#import fonts
-fonte = pygame.font.Font(join("Assets","Pixeboy.ttf"),64)
-fonte_p= pygame.font.Font(join("Assets","Pixeboy.ttf"),36)
+        #dados do jogo
+        self.vidas = 3
+        self.tempo_inicio = 0
+        self.tempo_final = 0
 
-#loop main
-rodando = True
-while rodando:
-    relogio.tick(60)
+        #import fonts
+        self.fonte = pygame.font.Font(join("Assets","Pixeboy.ttf"),64)
+        self.fonte_p= pygame.font.Font(join("Assets","Pixeboy.ttf"),36)
 
-    # eventos
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            rodando = False
+    def handle_event(self,event):
+        if event.type == pygame.KEYDOWN:
+            # MENU
+            if self.estado == self.menu:
+                if event.key == pygame.K_RETURN:
+                    self.estado = self.jogando
+                    self.tempo_inicio = pygame.time.get_ticks()
 
+            # GAME OVER 
+            elif self.estado == self.game_over:
+                if event.key == pygame.K_r:
+                    self.estado = self.menu
+                    vidas = 3
+
+    def update(self):
+        if self.estado == self.jogando and self.vidas <= 0:
+            self.tempo_final = (pygame.time.get_ticks() - self.tempo_inicio) // 10
+            self.estado = self.game_over
+
+    def draw(self,tela):
         # MENU
-        if estado == menu:
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
-                estado = jogando
-                tempo_inicio = pygame.time.get_ticks()
+        if self.estado == self.menu:
+            titulo = self.fonte.render('REI DO PROGRAMA', False, Cores["azul"])
+            subtitulo = self.fonte_p.render('ENTER para jogar', False, Cores["branco"])
+            mov = self.fonte_p.render('MOVIMENTAR: W,A,S,D', False, Cores["branco"])
+            tiro = self.fonte_p.render('ATIRAR: K', False, Cores["branco"])
 
-        # GAME OVER 
-        elif estado == game_over:
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
-                estado = menu
-                vidas = 3
+            tela.blit(titulo, titulo.get_rect(center=(largura//2, altura//2 - 50)))
+            tela.blit(subtitulo, subtitulo.get_rect(center=(largura//2, altura//2 + 50)))
+            tela.blit(mov, mov.get_rect(bottomleft=(20, altura - 50)))
+            tela.blit(tiro, tiro.get_rect(bottomleft=(20, altura - 20)))
 
-    #draw
-    tela.fill("black")
+        # JOGANDO
+        elif self.estado == self.jogando:
+            tempo_jogando = (pygame.time.get_ticks() - self.tempo_inicio) // 10
 
-    if estado == jogando and vidas <= 0:
-        tempo_final = (pygame.time.get_ticks() - tempo_inicio) // 10
-        estado = game_over
+            pontos_text = self.fonte_p.render(
+                f'Pontos: {tempo_jogando}',
+                False,
+                Cores["branco"]
+            )
 
-    if estado == menu:
-        # criando texto
-        titulo = fonte.render('REI DO PROGRAMA', False, Cores["azul"])
-        subtitulo = fonte_p.render('ENTER para jogar', False, Cores["branco"])
-        controles_mov = fonte_p.render('MOVIMENTAR: W,A,S,D', False, Cores["branco"])
-        controles_tiro = fonte_p.render('ATIRAR: K', False, Cores["branco"])
+            vida_text = self.fonte_p.render(
+                f'Vidas: {self.vidas}',
+                False,
+                Cores["branco"]
+            )
 
-        # drawing text
-        tela.blit(titulo, titulo.get_rect(center=(largura//2, altura//2 - 50)))
-        tela.blit(subtitulo, subtitulo.get_rect(center=(largura//2, altura//2 + 50)))
-        tela.blit(controles_mov, controles_mov.get_rect(bottomleft=(20,altura -50)))
-        tela.blit(controles_tiro, controles_tiro.get_rect(bottomleft=(20,altura -20)))
+            tela.blit(pontos_text, (20, 20))
+            tela.blit(vida_text, (20, 50))
 
+        # GAME OVER
+        elif self.estado == self.game_over:
+            game_over_text = self.fonte.render('GAME OVER', False, Cores["vermelho"])
+            sub1 = self.fonte_p.render(f'Pontos: {self.tempo_final}', False, Cores["branco"])
+            sub2 = self.fonte_p.render("PRESS 'R' PARA VOLTAR AO MENU", False, Cores["branco"])
 
-    elif estado == jogando:
-        
-        tempo_jogando = (pygame.time.get_ticks() - tempo_inicio) //10
-
-        pontos_text = fonte_p.render(f'Pontos:{tempo_jogando}', False, Cores["branco"])
-        vida_text = fonte_p.render(f"Vidas: {vidas}",False, Cores["branco"])
-
-        tela.blit(pontos_text, (20, 20))
-        tela.blit(vida_text,(20,50))
-     
-    elif estado == game_over:
-        game_over_text = fonte.render('GAME OVER', False, Cores["vermelho"])
-        subtitulo1 = fonte_p.render(f'Pontos: {tempo_final}',False,Cores["branco"])
-        subtitulo2 = fonte_p.render("PRESS 'R' PARA VOLTAR AO MENU", False,Cores["branco"] )
-
-        tela.blit(game_over_text, game_over_text.get_rect(center=(largura//2,altura//2 - 50)))
-        tela.blit(subtitulo1, subtitulo1.get_rect(center=(largura//2, altura//2 + 10)))
-        tela.blit(subtitulo2, subtitulo2.get_rect(center=(largura//2, altura//2 + 42)))
-    
-    #updates
-    pygame.display.update()
-
-
-pygame.quit()
-
-
-        
+            tela.blit(game_over_text, game_over_text.get_rect(center=(largura//2, altura//2 - 50)))
+            tela.blit(sub1, sub1.get_rect(center=(largura//2, altura//2 + 10)))
+            tela.blit(sub2, sub2.get_rect(center=(largura//2, altura//2 + 42)))

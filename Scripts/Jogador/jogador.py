@@ -5,9 +5,10 @@ import pygame
 from os.path import join
 from configs import *
 from Scripts.Jogador.tiro import *
+from interface import *
 
 class Jogador(pygame.sprite.Sprite):
-    def __init__(self, groups,tiros_sprites):
+    def __init__(self, groups,tiros_sprites,interface):
         super().__init__(groups)
 
         #sprites do jogador
@@ -18,6 +19,10 @@ class Jogador(pygame.sprite.Sprite):
         "down" :pygame.image.load(join('Assets','Jogador','player_down.png')).convert_alpha(),
         }
         
+        #vida do jogador
+        self.vidas = 3
+        self.interface = interface
+
         #direcao do jogador
         self.direcao = "down"     
         self.image = self.sprites[self.direcao]
@@ -47,7 +52,8 @@ class Jogador(pygame.sprite.Sprite):
                 self.pode_atirar = True
 
     def update(self):
-
+        if self.interface.estado != self.interface.jogando:
+            return
         # movimentação input
         keys = pygame.key.get_pressed()
         if keys[pygame.K_d]:
@@ -74,4 +80,4 @@ class Jogador(pygame.sprite.Sprite):
             Tiro(self.rect.center,self.direcao_tiro[self.direcao],groups=(self.todos_sprites,self.tiros_sprites))
             self.pode_atirar = False
             self.tempo_tiro = pygame.time.get_ticks() 
-        self.temporizador_tiro()
+            self.temporizador_tiro()

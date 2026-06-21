@@ -1,27 +1,46 @@
 import pygame
-from random import randint
-from os.path import join
+from configs import *
+from Scripts.Jogador.jogador import *
 
-pygame.init()
+class Jogo():
+    def __init__(self):
+        # main sets
+        pygame.init()
+        self.tela = pygame.display.set_mode((largura,altura))
+        pygame.display.set_caption(name_game)
+        self.relogio = pygame.time.Clock()
+        self.rodando = True
 
-# configurações base
-largura,altura = 800,600
-display_surface = pygame.display.set_mode((largura,altura))
-name_game = pygame.display.set_caption(('Rei do Programa'))
-clock = pygame.time.Clock()
+        #grupos
+        self.todos_sprites = pygame.sprite.Group()
+        self.tiro_sprites = pygame.sprite.Group()
 
-#script do 
 
-rodando = True
-while rodando:
-    clock.tick(60)
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            rodando = False
+        #jogador
+        self.jogador = Jogador(self.todos_sprites)
 
-    display_surface.fill ('darkgray')
-   
-    pygame.display.update()
-    
+    def run(self):
+        while self.rodando:
+            #relogio
+            relogio = self.relogio.tick(60)
 
-pygame.quit()
+            #eventos
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.rodando = False
+
+            #draw
+            self.tela.fill("black")
+            self.todos_sprites.draw(self.tela)
+            colisao()
+
+            #update
+            self.todos_sprites.update()
+            pygame.display.update()
+            
+            
+        
+        pygame.quit()
+if __name__ == '__main__':
+    jogo = Jogo()
+    jogo.run()

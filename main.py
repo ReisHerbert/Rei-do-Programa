@@ -1,6 +1,7 @@
 import pygame
 from configs import *
 from Scripts.Jogador.jogador import *
+from Scripts.Jogador.tiro import *
 
 class Jogo():
     def __init__(self):
@@ -14,15 +15,15 @@ class Jogo():
         #grupos
         self.todos_sprites = pygame.sprite.Group()
         self.tiro_sprites = pygame.sprite.Group()
-
+        self.inimigos_sprites = pygame.sprite.Group()
 
         #jogador
-        self.jogador = Jogador(self.todos_sprites)
+        self.jogador = Jogador(self.todos_sprites, self.tiro_sprites)
 
     def run(self):
         while self.rodando:
             #relogio
-            relogio = self.relogio.tick(60)
+            self.relogio.tick(60)
 
             #eventos
             for event in pygame.event.get():
@@ -32,15 +33,26 @@ class Jogo():
             #draw
             self.tela.fill("black")
             self.todos_sprites.draw(self.tela)
-            colisao()
+            self.colisao()
 
             #update
             self.todos_sprites.update()
             pygame.display.update()
-            
-            
-        
         pygame.quit()
+
+    def colisao(self):
+        # jogador vs inimigos
+        if pygame.sprite.spritecollide(self.jogador, self.inimigos_sprites, True):
+            pass  # dano aqui depois
+
+        # tiros vs inimigos
+        pygame.sprite.groupcollide(
+            self.tiro_sprites,
+            self.inimigos_sprites,
+            True,
+            True
+        )
+
 if __name__ == '__main__':
     jogo = Jogo()
     jogo.run()

@@ -4,6 +4,10 @@
 import pygame
 from os.path import join
 
+largura,altura = 800,600
+tela = pygame.display.set_mode((largura,altura))
+relogio = pygame.time.Clock()
+
 pygame.init()
 
 class Jogador(pygame.sprite.Sprite):

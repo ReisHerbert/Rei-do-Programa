@@ -32,7 +32,6 @@ class Interface():
             elif self.estado == self.game_over:
                 if event.key == pygame.K_r:
                     self.estado = self.menu
-                    vidas = 3
 
     def update(self):
         if self.estado == self.jogando and self.vidas <= 0:

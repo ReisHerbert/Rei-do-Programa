@@ -75,9 +75,8 @@ class Jogador(pygame.sprite.Sprite):
         self.image = self.sprites[self.direcao]
 
         #input do tiro
-        recent_keys = pygame.key.get_just_pressed()
-        if recent_keys[pygame.K_k] and self.pode_atirar:
+        if keys[pygame.K_k] and self.pode_atirar:
             Tiro(self.rect.center,self.direcao_tiro[self.direcao],groups=(self.todos_sprites,self.tiros_sprites))
             self.pode_atirar = False
             self.tempo_tiro = pygame.time.get_ticks() 
-            self.temporizador_tiro()
+        self.temporizador_tiro()

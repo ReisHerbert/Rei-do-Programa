@@ -12,7 +12,7 @@ relogio = pygame.time.Clock()
 
 class Jogador(pygame.sprite.Sprite):
     def __init__(self, groups):
-        super().__init__(todos_sprites)
+        super().__init__(groups)
 
         #sprites
         self.sprites = {
@@ -39,6 +39,7 @@ class Jogador(pygame.sprite.Sprite):
         "left": pygame.Vector2(-1, 0),
         "right": pygame.Vector2(1, 0),
 }
+        
     
     def temporizador_tiro(self):
         if not self.pode_atirar:
@@ -48,26 +49,24 @@ class Jogador(pygame.sprite.Sprite):
 
     def update(self):
         keys = pygame.key.get_pressed()
-        moving = False
         if keys[pygame.K_d]:
             self.rect.x += self.velocidade
             self.direcao = "right"
-            moving = True
+
 
         elif keys[pygame.K_a]:
             self.rect.x -= self.velocidade
             self.direcao = "left"
-            moving = True
 
         elif keys[pygame.K_w]:
             self.rect.y -= self.velocidade
             self.direcao = "up"
-            moving = True
 
         elif keys[pygame.K_s]:
             self.rect.y += self.velocidade
             self.direcao = "down"
-            moving = True
+
+        self.image = self.sprites[self.direcao]
 
         #input do tiro
         recent_keys = pygame.key.get_just_pressed()
@@ -103,7 +102,7 @@ def colisao():
     for tiro in tiro_sprites:
         sprites_colididos = pygame.sprite.spritecollide(tiro,inimigos_sprites,True)
         if sprites_colididos:
-            InimigoBasico.kill()
+            tiro.kill()
 
 
 #sprites
@@ -119,22 +118,15 @@ while rodando:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             rodando = False
-    for tiro in tiro_sprites:
-        pygame.sprite.spritecollide(tiro,inimigos_sprites, True)
 
     #draws
 
     tela.fill('darkgrey')
     todos_sprites.draw(tela)
-    tiro_sprites.draw(tela)
     colisao()
 
     #update
     pygame.display.update()
     todos_sprites.update()
-    tiro_sprites.update()
-
-
-
 pygame.quit()
 

@@ -16,9 +16,6 @@ class Jogo():
         self.relogio = pygame.time.Clock()
         self.rodando = True
 
-        # estados do jogo
-        self.interface = Interface()
-
         #MAPA
         self.tiles = carregar_tiles("Assets/Mapa")
         self.paredes = criar_colisores(F1_MAPA)
@@ -29,7 +26,11 @@ class Jogo():
         self.inimigos_sprites = pygame.sprite.Group()
 
         #jogador
-        self.jogador = Jogador(self.todos_sprites, self.tiro_sprites, self.interface)
+        self.vidas = 3
+        self.jogador = Jogador(self.todos_sprites, self.tiro_sprites, self)
+
+        # estados do jogo
+        self.interface = Interface(self)
 
         self.ultimo_spawn = pygame.time.get_ticks()
         self.tempo_spawn = 2000
@@ -69,13 +70,13 @@ class Jogo():
                 inimigo.update(self.paredes)
             self.colisao()
 
-            # sincroniza dados do jogador → interface
-            self.interface.vidas = self.jogador.vidas
+            """ # sincroniza dados do jogador → interface
+            self.interface.vidas = self.jogador.vidas """
             self.interface.update()
 
             # verifica morte
             if self.interface.estado == self.interface.jogando:
-                if self.jogador.vidas <= 0:
+                if self.vidas <= 0:
                     self.interface.estado = self.interface.game_over
 
             # DRAW
@@ -92,7 +93,7 @@ class Jogo():
     def colisao(self):
         # jogador vs inimigos
         if pygame.sprite.spritecollide(self.jogador, self.inimigos_sprites, True):
-            self.jogador.vidas -= 1
+            self.vidas -= 1
 
             pass  # dano aqui depois
 

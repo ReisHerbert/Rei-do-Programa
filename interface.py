@@ -3,7 +3,9 @@ from configs import *
 from os.path import join
 
 class Interface():
-    def __init__(self):
+    def __init__(self,jogo):
+        #carrega o dado de vidas do jogador
+        self.jogo = jogo
         #estados
 
         self.menu = 0
@@ -11,8 +13,7 @@ class Interface():
         self.game_over = 2
         self.estado = self.menu
 
-        #dados do jogo
-        self.vidas = 3
+        #dados dos pontos da UI
         self.tempo_inicio = 0
         self.tempo_final = 0
 
@@ -32,9 +33,10 @@ class Interface():
             elif self.estado == self.game_over:
                 if event.key == pygame.K_r:
                     self.estado = self.menu
+                    self.jogo.vidas = 3
 
     def update(self):
-        if self.estado == self.jogando and self.vidas <= 0:
+        if self.estado == self.jogando and self.jogo.vidas <= 0:
             self.tempo_final = (pygame.time.get_ticks() - self.tempo_inicio) // 10
             self.estado = self.game_over
 
@@ -62,7 +64,7 @@ class Interface():
             )
 
             vida_text = self.fonte_p.render(
-                f'Vidas: {self.vidas}',
+                f'Vidas: {self.jogo.vidas}',
                 False,
                 Cores["branco"]
             )

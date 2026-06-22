@@ -8,7 +8,7 @@ from Scripts.Jogador.tiro import *
 from interface import *
 
 class Jogador(pygame.sprite.Sprite):
-    def __init__(self, groups,tiros_sprites,interface):
+    def __init__(self, groups,tiros_sprites,jogo):
         super().__init__(groups)
 
         #sprites do jogador
@@ -20,8 +20,8 @@ class Jogador(pygame.sprite.Sprite):
         }
         
         #vida do jogador
-        self.vidas = 3
-        self.interface = interface
+        self.jogo = jogo
+        
 
         #direcao do jogador
         self.direcao = "down"     
@@ -52,8 +52,8 @@ class Jogador(pygame.sprite.Sprite):
                 self.pode_atirar = True
 
     def update(self):
-        if self.interface.estado != self.interface.jogando:
-            return
+        """ if self.interface.estado != self.interface.jogando:
+            return """
         # movimentação input
         keys = pygame.key.get_pressed()
         if keys[pygame.K_d]:

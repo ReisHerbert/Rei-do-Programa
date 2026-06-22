@@ -34,6 +34,11 @@ class Jogo():
         self.ultimo_spawn = pygame.time.get_ticks()
         self.tempo_spawn = 2000
 
+        self.fase_atual = 1
+        self.fase_maxima = 3
+        self.tempo_fase = pygame.time.get_ticks()
+        self.duracao_fase = 30000
+
     def run(self):
         while self.rodando:
             #relogio
@@ -45,10 +50,16 @@ class Jogo():
                     self.rodando = False  
                 self.interface.handle_event(event)
 
+            agora = pygame.time.get_ticks()
+            if agora - self.tempo_fase > self.duracao_fase:
+                if self.fase_atual <= self.fase_maxima:
+                    self.fase_atual += 1
+                    self.tempo_fase = agora
+
             # spawn automático ↓
             agora = pygame.time.get_ticks()
             if agora - self.ultimo_spawn > self.tempo_spawn:
-                novo = instancia_inimigo(largura, altura, 1, self.jogador)
+                novo = instancia_inimigo(largura, altura, self.fase_atual, self.jogador)
                 self.inimigos_sprites.add(novo)
                 self.ultimo_spawn = agora
 

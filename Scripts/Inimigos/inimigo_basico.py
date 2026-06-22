@@ -52,7 +52,6 @@ class InimigoBasico(pygame.sprite.Sprite): #importa funções necessarias
         posicao_jogador = pygame.math.Vector2(self.jogador.rect.center)
         posicao_self = pygame.math.Vector2(self.rect.center)
         direcao = posicao_jogador - posicao_self
-        print(f"jogador: {posicao_jogador} | inimigo: {posicao_self} | direcao: {direcao}")  # ← add
 
         if direcao.length() > 0:
             direcao  = direcao.normalize()

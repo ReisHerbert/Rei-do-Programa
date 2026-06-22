@@ -1,7 +1,7 @@
 
 import pygame
 import random
-from inimigo_basico import InimigoBasico
+from Scripts.Inimigos.inimigo_basico import InimigoBasico
 """
 o instancia inimigos deve verificar em qual fase está para  
     pegar as 4 posições em que ele pode instanciar

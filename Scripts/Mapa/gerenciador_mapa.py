@@ -11,20 +11,40 @@ def carregar_tiles(pasta):
                         nome = arquivo.replace(".png", "") #retira '.png' do nome do arquivo 
                         caminho = os.path.join(pasta, arquivo)
                         tiles[nome] = pygame.image.load(caminho).convert_alpha()
+                        img = pygame.image.load(caminho).convert_alpha()
+                        img = pygame.transform.scale(img, (TILE_SIZE, TILE_SIZE))
+                        tiles[nome] = img
 
         return tiles
 
 #MAPAS
-F1_MAPA = [
-    ["grama", "grama", "grama", "grama"],
-    ["grama", "parede", "parede", "grama"],
-    ["grama", "tronco",  "tronco",  "grama"],
-    ["grama", "grama", "grama", "grama"],
-]
-
 #DESENHANDO MAPA E COLISORES
 TILE_SIZE = 32
 TILES_SOLIDOS = ["tronco", "parede"]
+
+COLUNAS = 800 // TILE_SIZE  
+LINHAS  = 600 // TILE_SIZE   
+
+F1_MAPA = []
+for i in range(LINHAS):
+        if i == 0 or i == LINHAS - 1:       # primeira (0) ou última (36)
+                linha = ["parede"] * COLUNAS    # linha inteira de parede
+        elif i == 4 or i == 8 or i == 12 : 
+                linha = (
+                        ["parede"] +
+                        ["grama"] * 5 +
+                        ["tronco"] * 2 +
+                        ["grama"] * 7 +
+                        ["tronco"] * 2 +
+                        ["grama"] * 7 +
+                        ["parede"]
+                )          
+        else:
+                linha = ["parede"] + ["grama"] * (COLUNAS  - 2) + ["parede"]   # linha normal de grama com paredes nas laterais
+        F1_MAPA.append(linha)
+
+
+
 
 def desenhar_mapa(tela, mapa, tiles):
         for index_linha, linha in enumerate(mapa):
@@ -32,15 +52,14 @@ def desenhar_mapa(tela, mapa, tiles):
                         tile_img = tiles[nome_tile]
                         x = index_coluna * TILE_SIZE
                         y = index_linha * TILE_SIZE
-
-                        tela.blit(tiles, (x, y))
+                        tela.blit(tile_img, (x, y))
 
 def criar_colisores(mapa):
         paredes = []
         for index_linha, linha in enumerate(mapa):
                 for index_coluna, nome_tile in enumerate(linha):
                         if nome_tile in TILES_SOLIDOS:
-                                rect = pygame.rect(
+                                rect = pygame.Rect(
                                         index_coluna * TILE_SIZE, 
                                         index_linha * TILE_SIZE, 
                                         TILE_SIZE, 

@@ -2,9 +2,9 @@
 import pygame 
 
 VELOCIDADE = {
-    "baixa" : 50,
-    "media" : 80,
-    "alta" : 120, 
+    "baixa" : 100,
+    "media" : 200,
+    "alta" : 300, 
 }
 
 INIMIGO_DB = {
@@ -27,5 +27,3 @@ INIMIGO_DB = {
         "tipo": "voador"
     }
 }
-
-print( INIMIGO_DB["inimigo1_1F"])

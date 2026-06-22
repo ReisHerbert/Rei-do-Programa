@@ -74,6 +74,7 @@ class Interface():
 
         # GAME OVER
         elif self.estado == self.game_over:
+            self.jogo.tela.fill ("black")
             game_over_text = self.fonte.render('GAME OVER', False, Cores["vermelho"])
             sub1 = self.fonte_p.render(f'Pontos: {self.tempo_final}', False, Cores["branco"])
             sub2 = self.fonte_p.render("PRESS 'R' PARA VOLTAR AO MENU", False, Cores["branco"])

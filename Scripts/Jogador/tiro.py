@@ -12,7 +12,7 @@ class Tiro(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=pos)
 
         #movimento da bala
-        self.direcao = direcao
+        self.direcao = pygame.Vector2(direcao)
         self.velocidade = 5
 
     def update(self):

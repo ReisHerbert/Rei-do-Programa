@@ -32,7 +32,7 @@ class Jogador(pygame.sprite.Sprite):
         #tiro setup
         self.pode_atirar = True
         self.tempo_tiro = 0
-        self.duracao_cooldown = 200
+        self.duracao_cooldown = 300
 
         #direção do tiro
         self.direcao_tiro = {
@@ -52,9 +52,8 @@ class Jogador(pygame.sprite.Sprite):
                 self.pode_atirar = True
 
     def update(self):
-        """ if self.interface.estado != self.interface.jogando:
-            return """
-        # movimentação input
+        # input movimentação jogador
+
         keys = pygame.key.get_pressed()
         if keys[pygame.K_d]:
             self.rect.x += self.velocidade
@@ -75,8 +74,27 @@ class Jogador(pygame.sprite.Sprite):
         self.image = self.sprites[self.direcao]
 
         #input do tiro
-        if keys[pygame.K_k] and self.pode_atirar:
-            Tiro(self.rect.center,self.direcao_tiro[self.direcao],groups=(self.todos_sprites,self.tiros_sprites))
-            self.pode_atirar = False
-            self.tempo_tiro = pygame.time.get_ticks() 
+
+        if self.pode_atirar:
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_UP]:
+                Tiro(self.rect.center,self.direcao_tiro["up"],groups=(self.todos_sprites, self.tiros_sprites))
+                self.pode_atirar = False
+                self.tempo_tiro = pygame.time.get_ticks()
+
+            elif keys[pygame.K_DOWN]:
+                Tiro(self.rect.center,self.direcao_tiro["down"],groups=(self.todos_sprites, self.tiros_sprites))
+                self.pode_atirar = False
+                self.tempo_tiro = pygame.time.get_ticks()
+
+            elif keys[pygame.K_LEFT]:
+                Tiro(self.rect.center,self.direcao_tiro["left"],groups=(self.todos_sprites, self.tiros_sprites))
+                self.pode_atirar = False
+                self.tempo_tiro = pygame.time.get_ticks()
+
+            elif keys[pygame.K_RIGHT]:
+                Tiro(self.rect.center,self.direcao_tiro["right"],groups=(self.todos_sprites, self.tiros_sprites))
+                self.pode_atirar = False
+                self.tempo_tiro = pygame.time.get_ticks()
+
         self.temporizador_tiro()

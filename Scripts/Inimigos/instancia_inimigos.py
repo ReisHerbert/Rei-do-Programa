@@ -24,6 +24,14 @@ F2_INIMIGOS_TERRESTRES_PARA_DADOS = [
     "inimigo2_2F"
 ]
 
+F3_INIMIGOS_VOADORES_PARA_DADOS = [
+    "inimigo1_3F"
+]
+
+F3_INIMIGOS_TERRESTRES_PARA_DADOS = [
+    "inimigo2_3F"
+]
+
 def posicao_aleatoria(largura_tela, altura_tela):
     lado = random.choice(["direita", "esquerda", "baixo", "cima"])
 
@@ -50,7 +58,13 @@ def instancia_inimigo(largura_tela, altura_tela, fase_atual, jogador):
                     id_inimigo_atual = random.choice(F1_INIMIGOS_TERRESTRES_PARA_DADOS)
         case 2:
             id_inimigo_atual = random.choice(F2_INIMIGOS_TERRESTRES_PARA_DADOS)
-                    
+        case 3:
+            match tipo_inimigo:
+                case "terrestre":
+                    id_inimigo_atual = random.choice(F3_INIMIGOS_TERRESTRES_PARA_DADOS)
+                case "voador":
+                    id_inimigo_atual = random.choice(F3_INIMIGOS_VOADORES_PARA_DADOS)
+
     pos_x, pos_y = posicao_aleatoria(largura_tela, altura_tela)
 
     return InimigoBasico(id_inimigo_atual, pos_x, pos_y, jogador)

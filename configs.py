@@ -1,7 +1,7 @@
 import pygame
 from os.path import join
 
-largura,altura = 800,600
+largura,altura = 896,512 
 name_game = "Rei do Programa"
 relogio = pygame.time.Clock
 

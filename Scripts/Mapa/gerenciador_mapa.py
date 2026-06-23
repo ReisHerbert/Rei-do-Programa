@@ -22,19 +22,19 @@ def carregar_tiles(pasta):
 TILE_SIZE = 32
 TILES_SOLIDOS = ["tronco", "parede"]
 
-COLUNAS = 800 // TILE_SIZE  
-LINHAS  = 600 // TILE_SIZE   
+COLUNAS = 896  // TILE_SIZE  #->28
+LINHAS  = 512 // TILE_SIZE  #-> 16 
 
 F1_MAPA = []
 for i in range(LINHAS):
-        if i == 0 or i == LINHAS - 1:       # primeira (0) ou última (36)
+        if i == 0 or i == LINHAS - 1:       # primeira (0) ou última (16)
                 linha = ["parede"] * COLUNAS    # linha inteira de parede
         elif i == 4 or i == 8 or i == 12 : 
                 linha = (
                         ["parede"] +
-                        ["grama"] * 5 +
+                        ["grama"] * 6 +
                         ["tronco"] * 2 +
-                        ["grama"] * 7 +
+                        ["grama"] * 9 +
                         ["tronco"] * 2 +
                         ["grama"] * 7 +
                         ["parede"]

@@ -2,9 +2,9 @@
 import pygame 
 
 VELOCIDADE = {
-    "baixa" : 70,
-    "media" : 100,
-    "alta" : 120, 
+    "baixa" : 30,
+    "media" : 40,
+    "alta" : 70, 
 }
 
 INIMIGO_DB = {
@@ -41,6 +41,23 @@ INIMIGO_DB = {
         "animacao_frames": [
             "Assets/Inimigos/Sprite-0004.png",
             "Assets/Inimigos/Sprite-0005.png"
+        ], 
+        "tipo": "terrestre"
+    },
+    "inimigo1_3F": {
+        "velocidade": VELOCIDADE["media"],
+        "animacao_frames": [
+            "Assets/Inimigos/Sprite-0006.png",
+            "Assets/Inimigos/Sprite-0007.png"
+        ], 
+        "tipo": "voador"
+    },
+
+    "inimigo2_3F": {
+        "velocidade": VELOCIDADE["alta"],
+        "animacao_frames": [
+            "Assets/Inimigos/Sprite-0008.png",
+            "Assets/Inimigos/Sprite-0009.png"
         ], 
         "tipo": "terrestre"
     }

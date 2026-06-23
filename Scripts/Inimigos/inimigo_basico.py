@@ -24,15 +24,16 @@ class InimigoBasico(pygame.sprite.Sprite): #importa funções necessarias
         self.velocidade = dados["velocidade"]
         self.animacao_dados = dados["animacao_frames"]
         self.animacao_frames = []
+        self.ALTURA = 32
+        self.LARGURA = 32
         for frame in self.animacao_dados:
             sprite_atual = pygame.image.load(frame).convert_alpha()
+            sprite_atual = pygame.transform.scale(sprite_atual, (self.LARGURA, self.ALTURA))  # ← add
             self.animacao_frames.append(sprite_atual)
         self.frame_index = 0
         self.animacao_velocidade = 0.1
         self.jogador = jogador
         self.lado = "left"
-        self.ALTURA = 32
-        self.LARGURA = 32
         self.tempo = 0
 
         self.tempo_spawn = pygame.time.get_ticks()  # momento que nasceu
@@ -77,7 +78,7 @@ class InimigoBasico(pygame.sprite.Sprite): #importa funções necessarias
         self.animacao()
 
     def animacao(self):
-        self.frame_index += self.animacao_velocidade * (1/120)
+        self.frame_index += self.animacao_velocidade * (1/60)
 
         if self.frame_index > len(self.animacao_frames) - 1:
             self.frame_index = 0

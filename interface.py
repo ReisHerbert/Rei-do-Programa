@@ -20,6 +20,8 @@ class Interface():
         #import fonts
         self.fonte = pygame.font.Font(join("Assets","Pixeboy.ttf"),64)
         self.fonte_p= pygame.font.Font(join("Assets","Pixeboy.ttf"),36)
+        self.fonte_pp= pygame.font.Font(join("Assets","Pixeboy.ttf"),28)
+        self.background = pygame.image.load(join("Assets","background.png"))
 
     def handle_event(self,event):
         if event.type == pygame.KEYDOWN:
@@ -43,15 +45,16 @@ class Interface():
     def draw(self,tela):
         # MENU
         if self.estado == self.menu:
-            titulo = self.fonte.render('REI DO PROGRAMA', False, Cores["azul"])
-            subtitulo = self.fonte_p.render('ENTER para jogar', False, Cores["branco"])
-            mov = self.fonte_p.render('MOVIMENTAR: W,A,S,D', False, Cores["branco"])
-            tiro = self.fonte_p.render('ATIRAR: K', False, Cores["branco"])
+            titulo = self.fonte.render('REI DO PROGRAMA', False, Cores["amarelo saturado"])
+            subtitulo = self.fonte_p.render('ENTER para jogar', False, Cores["creme"])
+            mov = self.fonte_pp.render('MOVIMENTAR: W,A,S,D', False, Cores["creme"])
+            tiro = self.fonte_pp.render('ATIRAR: K', False, Cores["creme"])
 
-            tela.blit(titulo, titulo.get_rect(center=(largura//2, altura//2 - 50)))
-            tela.blit(subtitulo, subtitulo.get_rect(center=(largura//2, altura//2 + 50)))
-            tela.blit(mov, mov.get_rect(bottomleft=(20, altura - 50)))
-            tela.blit(tiro, tiro.get_rect(bottomleft=(20, altura - 20)))
+            tela.blit(self.background)
+            tela.blit(titulo, titulo.get_rect(center=(largura//2, altura//2 - 160)))
+            tela.blit(subtitulo, subtitulo.get_rect(center=(largura//2, altura//2 - 120)))
+            tela.blit(mov, mov.get_rect(bottomleft=(12, 35)))
+            tela.blit(tiro, tiro.get_rect(bottomleft=(12, 55)))
 
         # JOGANDO
         elif self.estado == self.jogando:
@@ -60,25 +63,25 @@ class Interface():
             pontos_text = self.fonte_p.render(
                 f'Pontos: {tempo_jogando}',
                 False,
-                Cores["branco"]
+                Cores["creme"]
             )
 
             vida_text = self.fonte_p.render(
                 f'Vidas: {self.jogo.vidas}',
                 False,
-                Cores["branco"]
+                Cores["creme"]
             )
 
-            tela.blit(pontos_text, (20, 20))
-            tela.blit(vida_text, (20, 50))
+            tela.blit(pontos_text, (40, 40))
+            tela.blit(vida_text, (40, 70))
 
         # GAME OVER
         elif self.estado == self.game_over:
-            self.jogo.tela.fill ("black")
+            self.jogo.tela.fill("black")
             game_over_text = self.fonte.render('GAME OVER', False, Cores["vermelho"])
-            sub1 = self.fonte_p.render(f'Pontos: {self.tempo_final}', False, Cores["branco"])
-            sub2 = self.fonte_p.render("PRESS 'R' PARA VOLTAR AO MENU", False, Cores["branco"])
+            sub1 = self.fonte_p.render(f'Pontos: {self.tempo_final}', False, Cores["cinza"])
+            sub2 = self.fonte_p.render("PRESS 'R' PARA VOLTAR AO MENU", False, Cores["cinza"])
 
             tela.blit(game_over_text, game_over_text.get_rect(center=(largura//2, altura//2 - 50)))
             tela.blit(sub1, sub1.get_rect(center=(largura//2, altura//2 + 10)))
-            tela.blit(sub2, sub2.get_rect(center=(largura//2, altura//2 + 42)))
+            tela.blit(sub2, sub2.get_rect(center=(largura//2, altura//2 + 42)))    

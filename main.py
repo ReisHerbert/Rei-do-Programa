@@ -48,6 +48,7 @@ class Jogo():
     def reset_total(self):
         self.inimigos_sprites.empty()
         self.tiro_sprites.empty()
+        self.jogador.image = self.jogador.sprites["down"]
         self.jogador.rect = self.jogador.image.get_frect(center = (largura/2,altura/2))
 
     def run(self):

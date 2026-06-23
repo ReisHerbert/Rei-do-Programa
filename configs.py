@@ -1,12 +1,13 @@
 import pygame
 from os.path import join
 
-largura,altura = 800,600
+largura,altura = 896,512
 name_game = "Rei do Programa"
 relogio = pygame.time.Clock
 
 Cores = {
-    "azul": (37, 99, 235),
+    "amarelo saturado": (255, 220, 50),
+    "creme":(255, 251, 230),
     "vermelho": (220, 38, 38),
-    "branco": (203, 213, 225),
+    "cinza": (203, 213, 225),
 }

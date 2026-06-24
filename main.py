@@ -100,13 +100,12 @@ class Jogo():
             agora = pygame.time.get_ticks()
             if agora - self.tempo_fase > self.duracao_fase:
                 self.tocarSom(self.sons["passou_nivel"], 0.8)
-                if self.fase_atual <= self.fase_maxima:
+                self.tempo_fase = agora
+                
+                if self.fase_atual < self.fase_maxima:  
                     self.fase_atual += 1
-                    print(self.fase_atual)
-                    self.tempo_fase = agora
                 else:
-                    self.fase_atual = 1
-                    self.tempo_fase = agora
+                    self.fase_atual = 1  # volta pra fase 1 ao terminar
 
             # spawn automático ↓
             if self.interface.estado == self.interface.jogando:

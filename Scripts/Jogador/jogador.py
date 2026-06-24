@@ -12,11 +12,14 @@ class Jogador(pygame.sprite.Sprite):
         super().__init__(groups)
 
         #sprites do jogador
+        self.LARGURA = 32
+        self.ALTURA = 32
+
         self.sprites = {
-        "right":pygame.image.load(join('Assets','Jogador','player_right.png')).convert_alpha(),
-        "left": pygame.image.load(join('Assets','Jogador','player_left.png')).convert_alpha(),
-        "up":pygame.image.load(join('Assets','Jogador','player_up.png')).convert_alpha(),
-        "down" :pygame.image.load(join('Assets','Jogador','player_down.png')).convert_alpha(),
+            "right": pygame.transform.scale(pygame.image.load(join('Assets','Jogador','player_right.png')).convert_alpha(), (self.LARGURA, self.ALTURA)),
+            "left":  pygame.transform.scale(pygame.image.load(join('Assets','Jogador','player_left.png')).convert_alpha(),  (self.LARGURA, self.ALTURA)),
+            "up":    pygame.transform.scale(pygame.image.load(join('Assets','Jogador','player_up.png')).convert_alpha(),    (self.LARGURA, self.ALTURA)),
+            "down":  pygame.transform.scale(pygame.image.load(join('Assets','Jogador','player_down.png')).convert_alpha(),  (self.LARGURA, self.ALTURA)),
         }
         
         #vida do jogador
@@ -50,6 +53,13 @@ class Jogador(pygame.sprite.Sprite):
             tempo_atual = pygame.time.get_ticks()
             if tempo_atual - self.tempo_tiro >= self.duracao_cooldown:
                 self.pode_atirar = True
+    def instanciar_tiro(self,direcao:str):
+        som = pygame.mixer.Sound("Assets/Sons/tiro.mp3")
+        som.set_volume(0.8)
+        som.play()
+        Tiro(self.rect.center,self.direcao_tiro[direcao],groups=(self.todos_sprites, self.tiros_sprites))
+        self.pode_atirar = False
+        self.tempo_tiro = pygame.time.get_ticks()
 
     def update(self):
         # input movimentação jogador
@@ -78,23 +88,15 @@ class Jogador(pygame.sprite.Sprite):
         if self.pode_atirar:
             keys = pygame.key.get_pressed()
             if keys[pygame.K_UP]:
-                Tiro(self.rect.center,self.direcao_tiro["up"],groups=(self.todos_sprites, self.tiros_sprites))
-                self.pode_atirar = False
-                self.tempo_tiro = pygame.time.get_ticks()
+                self.instanciar_tiro("up")
 
             elif keys[pygame.K_DOWN]:
-                Tiro(self.rect.center,self.direcao_tiro["down"],groups=(self.todos_sprites, self.tiros_sprites))
-                self.pode_atirar = False
-                self.tempo_tiro = pygame.time.get_ticks()
+                self.instanciar_tiro("down")
 
             elif keys[pygame.K_LEFT]:
-                Tiro(self.rect.center,self.direcao_tiro["left"],groups=(self.todos_sprites, self.tiros_sprites))
-                self.pode_atirar = False
-                self.tempo_tiro = pygame.time.get_ticks()
+                self.instanciar_tiro("left")
 
             elif keys[pygame.K_RIGHT]:
-                Tiro(self.rect.center,self.direcao_tiro["right"],groups=(self.todos_sprites, self.tiros_sprites))
-                self.pode_atirar = False
-                self.tempo_tiro = pygame.time.get_ticks()
+                self.instanciar_tiro("right")
 
         self.temporizador_tiro()

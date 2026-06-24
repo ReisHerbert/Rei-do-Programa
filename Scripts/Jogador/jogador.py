@@ -25,12 +25,15 @@ class Jogador(pygame.sprite.Sprite):
         #vida do jogador
         self.jogo = jogo
         
-
         #direcao do jogador
         self.direcao = "down"     
         self.image = self.sprites[self.direcao]
         self.rect = self.image.get_frect(center = (largura/2,altura/2))
         self.velocidade = 3
+
+        #variavel pra impedir jogador de ultrapassar a tela
+        limites_tela = pygame.Rect(0, 0, largura, altura)
+        self.rect.clamp_ip(limites_tela)
 
         #tiro setup
         self.pode_atirar = True
@@ -82,6 +85,7 @@ class Jogador(pygame.sprite.Sprite):
             self.direcao = "down"
 
         self.image = self.sprites[self.direcao]
+        self.rect.clamp_ip(pygame.Rect(0, 0, largura, altura))
 
         #input do tiro
 

@@ -97,7 +97,6 @@ class Jogo():
                             self.reset_total()
                 self.interface.handle_event(event)
 
-            print(self.fase_atual)
             agora = pygame.time.get_ticks()
             if agora - self.tempo_fase > self.duracao_fase:
                 self.tocarSom(self.sons["passou_nivel"], 0.8)
@@ -145,7 +144,6 @@ class Jogo():
     def colisao(self):
         # jogador vs inimigos
         if pygame.sprite.spritecollide(self.jogador, self.inimigos_sprites, True):
-            print(self.sons["hit"])
             self.tocarSom(self.sons["hit"], 0.8)
             self.vidas -= 1
             pass 

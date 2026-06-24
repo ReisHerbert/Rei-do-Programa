@@ -22,6 +22,8 @@ class Interface():
         self.fonte_p= pygame.font.Font(join("Assets","Pixeboy.ttf"),36)
         self.fonte_pp= pygame.font.Font(join("Assets","Pixeboy.ttf"),28)
         self.background = pygame.image.load(join("Assets","background.png"))
+        self.controles = pygame.image.load(join("Assets","controles_t.png")).convert_alpha()
+        self.controles_aumentados = pygame.transform.scale(self.controles, (160, 96))
 
     def handle_event(self,event):
         if event.type == pygame.KEYDOWN:
@@ -47,14 +49,11 @@ class Interface():
         if self.estado == self.menu:
             titulo = self.fonte.render('REI DO PROGRAMA', False, Cores["amarelo saturado"])
             subtitulo = self.fonte_p.render('ENTER para jogar', False, Cores["creme"])
-            mov = self.fonte_pp.render('MOVIMENTAR: W,A,S,D', False, Cores["creme"])
-            tiro = self.fonte_pp.render('ATIRAR: K', False, Cores["creme"])
 
             tela.blit(self.background)
             tela.blit(titulo, titulo.get_rect(center=(largura//2, altura//2 - 160)))
             tela.blit(subtitulo, subtitulo.get_rect(center=(largura//2, altura//2 - 120)))
-            tela.blit(mov, mov.get_rect(bottomleft=(12, 35)))
-            tela.blit(tiro, tiro.get_rect(bottomleft=(12, 55)))
+            tela.blit(self.controles_aumentados,self.controles_aumentados.get_rect(topleft=(12,-5)))
 
         # JOGANDO
         elif self.estado == self.jogando:
